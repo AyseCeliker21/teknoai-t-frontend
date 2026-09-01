@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #071219;
+  --surface: #0e1e26;
+  --surface-2: #16303b;
+  --border-c: #234451;
+  --foreground: #f1f8fa;
+  --muted: #8fb0ba;
+  --accent: #14b8a6;
+  --accent-hover: #2dd4bf;
+  --accent-2: #0e7490;
+  --accent-foreground: #ffffff;
+  --success: #22c55e;
+  --warning: #eab308;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border-c);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-2: var(--accent-2);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border-c);
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.prose-tekno {
+  color: var(--foreground);
+  line-height: 1.75;
+}
+.prose-tekno h1, .prose-tekno h2, .prose-tekno h3 {
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--foreground);
+}
+.prose-tekno h1 { font-size: 1.75rem; }
+.prose-tekno h2 { font-size: 1.4rem; }
+.prose-tekno h3 { font-size: 1.15rem; }
+.prose-tekno p { margin-bottom: 1em; }
+.prose-tekno a { color: var(--accent-hover); text-decoration: underline; }
+.prose-tekno ul, .prose-tekno ol { margin-bottom: 1em; padding-left: 1.5em; }
+.prose-tekno li { margin-bottom: 0.35em; }
+.prose-tekno code {
+  background: var(--surface-2);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.9em;
+}
+.prose-tekno pre {
+  background: var(--surface-2);
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.prose-tekno blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  color: var(--muted);
+  margin-bottom: 1em;
+}
+.prose-tekno img {
+  border-radius: 0.5em;
+  margin: 1em 0;
+}
+
+@keyframes tekno-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-tekno-pulse {
+  animation: tekno-pulse 1.4s ease-in-out infinite;
+}
+
+.brand-hero-bg {
+  background-color: #0f6d78;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='70' viewBox='0 0 80 70'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='2'%3E%3Cpolygon points='14,4 24,22 4,22'/%3E%3Cpolygon points='54,4 64,22 44,22'/%3E%3Cpolygon points='34,34 44,52 24,52'/%3E%3Cpolygon points='74,34 84,52 64,52'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(135deg, #2fd6c4 0%, #17a3ad 42%, #0e6f8e 78%, #0a4f6e 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: 80px 70px, cover;
 }
