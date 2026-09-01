@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: teknoai-t-frontend
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: API_URL
+        value: https://teknoai-t-api.runasp.net
+      - key: NODE_VERSION
+        value: 20
