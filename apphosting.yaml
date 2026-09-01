@@ -1,0 +1,13 @@
+# Firebase App Hosting configuration
+# https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  minInstances: 0
+  maxInstances: 1
+
+env:
+  - variable: API_URL
+    value: https://teknoai-t-api.runasp.net
+    availability:
+      - BUILD
+      - RUNTIME
