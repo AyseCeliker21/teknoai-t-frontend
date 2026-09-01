@@ -171,3 +171,9 @@ export interface AssistantMessageDto {
   content: string;
   createdAtUtc: string;
 }
+
+export interface WhatsAppBotStatus {
+  configured: boolean;
+  connected: boolean;
+  status: string;
+}

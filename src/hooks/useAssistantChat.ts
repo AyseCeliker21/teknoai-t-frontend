@@ -46,12 +46,32 @@ export function useAssistantChat() {
         buffer = events.pop() ?? "";
 
         for (const evt of events) {
-          const dataLine = evt.split("\n").find((l) => l.startsWith("data:"));
+          const lines = evt.split("\n");
+          const dataLine = lines.find((l) => l.startsWith("data:"));
           if (!dataLine) continue;
           const raw = dataLine.slice(5).trim();
           if (raw === "[DONE]") continue;
+
+          const isErrorEvent = lines.some((l) => l.startsWith("event:") && l.slice(6).trim() === "error");
+          if (isErrorEvent) {
+            let errorMessage = "Asistan şu anda yanıt veremiyor, lütfen tekrar deneyin.";
+            try {
+              const parsed = JSON.parse(raw) as { error?: string };
+              if (parsed?.error) errorMessage = parsed.error;
+            } catch {
+              /* ignore */
+            }
+            setMessages((m) => {
+              const copy = [...m];
+              copy[copy.length - 1] = { role: "assistant", content: errorMessage };
+              return copy;
+            });
+            continue;
+          }
+
           try {
-            const chunk = JSON.parse(raw) as string;
+            const chunk: unknown = JSON.parse(raw);
+            if (typeof chunk !== "string") continue;
             setMessages((m) => {
               const copy = [...m];
               copy[copy.length - 1] = { role: "assistant", content: copy[copy.length - 1].content + chunk };

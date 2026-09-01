@@ -14,6 +14,7 @@ import {
   FolderGit2,
   UserCircle2,
   Mail,
+  QrCode,
 } from "lucide-react";
 
 const panelLinks = [
@@ -34,6 +35,7 @@ const adminLinks = [
   { href: "/yonetim/kadro", label: "Kadro", icon: UserCircle2 },
   { href: "/yonetim/destek", label: "Destek Talepleri", icon: LifeBuoy },
   { href: "/yonetim/iletisim", label: "İletişim Kutusu", icon: Mail },
+  { href: "/yonetim/whatsapp", label: "WhatsApp Bot", icon: QrCode },
 ];
 
 const contentOnlyHrefs = new Set(["/yonetim/haberler", "/yonetim/projeler"]);

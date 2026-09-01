@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Label, Input } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
@@ -43,7 +44,12 @@ export function LoginForm() {
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="password">Şifre</Label>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="password">Şifre</Label>
+          <Link href="/sifremi-unuttum" className="mb-1.5 text-xs text-accent-hover hover:underline">
+            Şifremi unuttum
+          </Link>
+        </div>
         <Input
           id="password"
           type="password"

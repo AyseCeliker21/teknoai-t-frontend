@@ -32,8 +32,8 @@ async function forward(request: NextRequest, path: string[]) {
     }
   }
 
-  const responseBody = await upstream.text();
-  return new NextResponse(responseBody || null, {
+  const responseBody = await upstream.arrayBuffer();
+  return new NextResponse(responseBody.byteLength > 0 ? responseBody : null, {
     status: upstream.status,
     headers: { "Content-Type": upstream.headers.get("Content-Type") ?? "application/json" },
   });
