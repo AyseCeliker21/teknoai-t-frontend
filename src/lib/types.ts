@@ -17,7 +17,13 @@ export interface AuthResponse {
   accessToken: string;
   accessTokenExpiresAtUtc: string;
   refreshToken: string;
-  user: SessionUser & { title?: string | null; bio?: string | null; avatarUrl?: string | null };
+  user: SessionUser & {
+    title?: string | null;
+    bio?: string | null;
+    avatarUrl?: string | null;
+    phoneNumber?: string | null;
+    phoneNumberConfirmed: boolean;
+  };
 }
 
 export interface TeamMember {

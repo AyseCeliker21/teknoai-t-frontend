@@ -9,6 +9,7 @@ export function RegisterForm() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,12 +22,12 @@ export function RegisterForm() {
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
-        body: JSON.stringify({ fullName, email, password }),
+        body: JSON.stringify({ fullName, email, phoneNumber, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Kayıt başarısız.");
 
-      router.push("/panel");
+      router.push("/panel/telefon-dogrula");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Bir hata oluştu.");
@@ -44,6 +45,20 @@ export function RegisterForm() {
       <div>
         <Label htmlFor="email">E-posta</Label>
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+      </div>
+      <div>
+        <Label htmlFor="phoneNumber">WhatsApp Numarası</Label>
+        <Input
+          id="phoneNumber"
+          type="tel"
+          required
+          placeholder="+905XXXXXXXXX"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <p className="mt-1.5 text-xs text-muted">
+          Doğrulama kodu ve haber duyuruları bu numaraya WhatsApp üzerinden gönderilir.
+        </p>
       </div>
       <div>
         <Label htmlFor="password">Şifre</Label>

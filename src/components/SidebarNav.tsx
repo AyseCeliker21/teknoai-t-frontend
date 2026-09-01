@@ -36,9 +36,20 @@ const adminLinks = [
   { href: "/yonetim/iletisim", label: "İletişim Kutusu", icon: Mail },
 ];
 
-export function SidebarNav({ variant, title }: { variant: "panel" | "yonetim"; title: string }) {
+const contentOnlyHrefs = new Set(["/yonetim/haberler", "/yonetim/projeler"]);
+
+export function SidebarNav({
+  variant,
+  title,
+  contentOnly = false,
+}: {
+  variant: "panel" | "yonetim";
+  title: string;
+  contentOnly?: boolean;
+}) {
   const pathname = usePathname();
-  const links = variant === "panel" ? panelLinks : adminLinks;
+  const links =
+    variant === "panel" ? panelLinks : contentOnly ? adminLinks.filter((l) => contentOnlyHrefs.has(l.href)) : adminLinks;
 
   return (
     <aside className="w-full shrink-0 md:w-56">

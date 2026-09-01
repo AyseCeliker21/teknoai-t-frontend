@@ -8,7 +8,12 @@ import { LinkButton } from "@/components/ui/Button";
 import { TeknoLogoMark } from "@/components/TeknoLogoMark";
 import type { SessionUser } from "@/lib/types";
 
-const links = [
+const guestLinks = [
+  { href: "/kadromuz", label: "Kadromuz" },
+  { href: "/haberler", label: "Haberler" },
+];
+
+const memberLinks = [
   { href: "/kadromuz", label: "Kadromuz" },
   { href: "/haberler", label: "Haberler" },
   { href: "/projeler", label: "Projeler" },
@@ -19,7 +24,8 @@ const links = [
 
 export function Navbar({ user }: { user: SessionUser | null }) {
   const [open, setOpen] = useState(false);
-  const isAdmin = user?.roles.includes("Yonetici");
+  const isAdminArea = user?.roles.some((r) => r === "Yonetici" || r === "IcerikUretici");
+  const links = user ? memberLinks : guestLinks;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
@@ -47,7 +53,7 @@ export function Navbar({ user }: { user: SessionUser | null }) {
           </LinkButton>
           {user ? (
             <>
-              {isAdmin && (
+              {isAdminArea && (
                 <LinkButton href="/yonetim" variant="secondary" size="sm">
                   Yönetim
                 </LinkButton>
@@ -101,7 +107,7 @@ export function Navbar({ user }: { user: SessionUser | null }) {
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
               {user ? (
                 <>
-                  {isAdmin && (
+                  {isAdminArea && (
                     <LinkButton href="/yonetim" variant="secondary" size="sm">
                       Yönetim
                     </LinkButton>

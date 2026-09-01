@@ -4,8 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 
-const allRoles = ["Uye", "Editor", "Yonetici"];
-const roleLabels: Record<string, string> = { Uye: "Üye", Editor: "Editör", Yonetici: "Yönetici" };
+const allRoles = ["Uye", "IcerikUretici", "Yonetici"];
+const roleLabels: Record<string, string> = {
+  Uye: "Topluluk Üyesi",
+  IcerikUretici: "İçerik Üretici",
+  Yonetici: "Sistem Yöneticisi",
+};
 
 export function UserRoleControl({
   userId,
