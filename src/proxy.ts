@@ -18,7 +18,7 @@ function getRoles(request: NextRequest): string[] {
 // Guests (not logged in) may only browse Haberler, Kadromuz, the home page,
 // auth pages, and get a limited AI assistant trial. Everything else requires
 // an account.
-const MEMBER_ONLY_PATHS = ["/panel", "/projeler", "/makaleler", "/ilanlar", "/iletisim"];
+const MEMBER_ONLY_PATHS = ["/panel", "/projeler", "/makaleler", "/ilanlar", "/iletisim", "/uyeler", "/uye"];
 
 // Within /yonetim, only these paths are open to İçerik Üretici (in addition
 // to Sistem Yöneticisi, who can reach everything under /yonetim).
@@ -68,5 +68,7 @@ export const config = {
     "/ilanlar",
     "/ilanlar/:path*",
     "/iletisim",
+    "/uyeler",
+    "/uye/:path*",
   ],
 };

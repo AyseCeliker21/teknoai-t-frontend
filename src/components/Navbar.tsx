@@ -19,6 +19,7 @@ const memberLinks = [
   { href: "/projeler", label: "Projeler" },
   { href: "/makaleler", label: "Makaleler" },
   { href: "/ilanlar", label: "İlanlar" },
+  { href: "/uyeler", label: "Üyeler" },
   { href: "/iletisim", label: "İletişim" },
 ];
 

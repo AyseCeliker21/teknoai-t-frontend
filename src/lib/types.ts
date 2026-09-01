@@ -62,6 +62,7 @@ export interface ArticleListItem {
   authorName: string;
   status: string;
   publishedAtUtc?: string | null;
+  authorId: string;
 }
 
 export interface ArticleDetail extends ArticleListItem {
@@ -176,4 +177,35 @@ export interface WhatsAppBotStatus {
   configured: boolean;
   connected: boolean;
   status: string;
+}
+
+export interface Badge {
+  key: string;
+  name: string;
+  description: string;
+  icon: string;
+  awardedAtUtc: string;
+}
+
+export interface UserSummary {
+  id: string;
+  fullName: string;
+  title?: string | null;
+  avatarUrl?: string | null;
+}
+
+export interface PublicProfile {
+  id: string;
+  fullName: string;
+  title?: string | null;
+  bio?: string | null;
+  avatarUrl?: string | null;
+  createdAtUtc: string;
+  followerCount: number;
+  followingCount: number;
+  friendCount: number;
+  isFollowedByCurrentUser: boolean;
+  isFollowingCurrentUser: boolean;
+  isFriend: boolean;
+  badges: Badge[];
 }

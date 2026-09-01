@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { apiFetch, ApiError } from "@/lib/api";
 import type { ArticleDetail } from "@/lib/types";
@@ -18,7 +19,10 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   return (
     <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <p className="text-sm text-muted">
-        {article.authorName} · {formatDate(article.publishedAtUtc)}
+        <Link href={`/uye/${article.authorId}`} className="hover:text-foreground hover:underline">
+          {article.authorName}
+        </Link>{" "}
+        · {formatDate(article.publishedAtUtc)}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">{article.title}</h1>
       <p className="mt-4 text-lg text-muted">{article.summary}</p>
