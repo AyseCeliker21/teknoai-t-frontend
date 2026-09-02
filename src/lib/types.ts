@@ -187,6 +187,24 @@ export interface AuditLogEntry {
   createdAtUtc: string;
 }
 
+export interface ChatMessage {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  createdAtUtc: string;
+  isRead: boolean;
+}
+
+export interface ChatConversation {
+  userId: string;
+  fullName: string;
+  avatarUrl?: string | null;
+  lastMessage?: string | null;
+  lastMessageAtUtc?: string | null;
+  unreadCount: number;
+}
+
 export interface PublicProfile {
   id: string;
   fullName: string;

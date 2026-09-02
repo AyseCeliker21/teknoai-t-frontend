@@ -15,12 +15,12 @@ import {
   UserCircle2,
   Mail,
   ScrollText,
+  MessageCircle,
 } from "lucide-react";
 
 const panelLinks = [
   { href: "/panel", label: "Panelim", icon: LayoutDashboard },
-  { href: "/panel/hibelerim", label: "Hibelerim / Fonlarım", icon: HandCoins },
-  { href: "/panel/ilanlarim", label: "İlanlarım", icon: Megaphone },
+  { href: "/panel/sohbet", label: "Sohbet", icon: MessageCircle },
   { href: "/panel/destek", label: "Destek", icon: LifeBuoy },
   { href: "/panel/profil", label: "Profilim", icon: UserCog },
 ];

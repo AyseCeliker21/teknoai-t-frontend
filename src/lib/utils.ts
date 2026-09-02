@@ -13,6 +13,11 @@ export function formatDate(value?: string | null): string {
   });
 }
 
+export function formatTime(value?: string | null): string {
+  if (!value) return "";
+  return new Date(value).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+}
+
 export function statusLabel(status: string): string {
   const map: Record<string, string> = {
     Pending: "Onay Bekliyor",
