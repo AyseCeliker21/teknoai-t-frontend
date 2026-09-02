@@ -130,7 +130,7 @@ export function ForgotPasswordForm() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted">
-        Kayıtlı WhatsApp numarana bir kod gönderdik (eğer bu e-posta kayıtlıysa).
+        E-postana bir kod gönderdik (eğer bu e-posta kayıtlıysa).
       </p>
       <div>
         <Label htmlFor="code">6 Haneli Kod</Label>

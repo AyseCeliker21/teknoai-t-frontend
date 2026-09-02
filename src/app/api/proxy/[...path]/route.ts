@@ -8,7 +8,8 @@ async function forward(request: NextRequest, path: string[]) {
   const targetUrl = `${API_URL}/api/${path.join("/")}${search}`;
 
   const hasBody = !["GET", "HEAD"].includes(request.method);
-  const body = hasBody ? await request.text() : undefined;
+  const body = hasBody ? await request.arrayBuffer() : undefined;
+  const contentType = request.headers.get("Content-Type") ?? "application/json";
 
   let token = await getAccessToken();
 
@@ -16,7 +17,7 @@ async function forward(request: NextRequest, path: string[]) {
     fetch(targetUrl, {
       method: request.method,
       headers: {
-        "Content-Type": "application/json",
+        ...(hasBody ? { "Content-Type": contentType } : {}),
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       },
       body,

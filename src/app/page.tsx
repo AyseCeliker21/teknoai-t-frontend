@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { ArrowRight, Newspaper, FolderGit2, Users, Sparkles } from "lucide-react";
+import { ArrowRight, Newspaper, FolderGit2, Users, HandCoins } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import type { NewsListItem, ProjectListItem, TeamMember, PagedResult } from "@/lib/types";
+import type { NewsListItem, ProjectListItem, TeamMember, GrantListItem, PagedResult } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { formatDate } from "@/lib/utils";
 
 export default async function HomePage() {
-  const [news, projects, team] = await Promise.all([
+  const [news, projects, team, grants] = await Promise.all([
     apiFetch<PagedResult<NewsListItem>>("/api/news?page=1&pageSize=3").catch(() => null),
     apiFetch<PagedResult<ProjectListItem>>("/api/projects?page=1&pageSize=3").catch(() => null),
     apiFetch<TeamMember[]>("/api/team").catch(() => []),
+    apiFetch<PagedResult<GrantListItem>>("/api/grants?page=1&pageSize=3").catch(() => null),
   ]);
 
   return (
@@ -18,10 +19,6 @@ export default async function HomePage() {
       <section className="brand-hero-bg relative overflow-hidden border-b border-border text-white">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 relative">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs text-white backdrop-blur">
-              <Sparkles size={14} />
-              TeknoAI Asistan artık yanında
-            </div>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
               Tekno<span className="text-white">AI</span>-T
             </h1>
@@ -30,15 +27,14 @@ export default async function HomePage() {
             </p>
             <p className="mt-6 text-lg text-white/80">
               Teknoloji ve yapay zekaya gönül veren herkesin bir araya geldiği topluluk platformu.
-              Haberleri takip et, projelere katıl, makale yaz, ilan paylaş ve TeknoAI Asistan&apos;a
-              istediğini sor.
+              Haberleri takip et, projelere katıl, hibe/fon fırsatlarını keşfet ve ilan paylaş.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <LinkButton href="/kayit" variant="heroPrimary" size="lg">
                 Topluluğa Katıl <ArrowRight size={18} />
               </LinkButton>
-              <LinkButton href="/asistan" variant="heroSecondary" size="lg">
-                <Sparkles size={18} /> TeknoAI Asistan&apos;ı Dene
+              <LinkButton href="/hibeler" variant="heroSecondary" size="lg">
+                <HandCoins size={18} /> Hibeler / Fonlar
               </LinkButton>
             </div>
           </div>
@@ -104,41 +100,72 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-2xl font-bold">
-            <Users size={22} className="text-accent-hover" /> Kadromuz
+            <HandCoins size={22} className="text-accent-hover" /> Güncel Hibeler ve Fonlar
           </h2>
-          <Link href="/kadromuz" className="text-sm text-muted hover:text-foreground">
+          <Link href="/hibeler" className="text-sm text-muted hover:text-foreground">
             Tümünü gör →
           </Link>
         </div>
-        {team.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {team.slice(0, 4).map((m) => (
-              <Card key={m.id} className="p-5 text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-surface-2 text-lg font-bold text-accent-hover">
-                  {m.fullName
-                    .split(" ")
-                    .map((p) => p[0])
-                    .slice(0, 2)
-                    .join("")}
-                </div>
-                <h3 className="mt-3 font-semibold">{m.fullName}</h3>
-                <p className="text-sm text-muted">{m.title}</p>
-              </Card>
+        {grants && grants.items.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {grants.items.map((g) => (
+              <Link key={g.id} href={`/hibeler/${g.slug}`}>
+                <Card className="h-full p-5 transition-colors hover:border-accent/50">
+                  <p className="text-xs text-muted">{g.organization}</p>
+                  <h3 className="mt-2 font-semibold leading-snug">{g.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-muted">{g.summary}</p>
+                  {g.deadlineAtUtc && (
+                    <p className="mt-3 text-xs text-accent-hover">Son başvuru: {formatDate(g.deadlineAtUtc)}</p>
+                  )}
+                </Card>
+              </Link>
             ))}
           </div>
         ) : (
-          <EmptyHint text="Henüz kadro üyesi eklenmedi." />
+          <EmptyHint text="Henüz hibe/fon ilanı eklenmedi." />
         )}
+      </section>
+
+      <section className="border-t border-border bg-surface/40">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="flex items-center gap-2 text-2xl font-bold">
+              <Users size={22} className="text-accent-hover" /> Kadromuz
+            </h2>
+            <Link href="/kadromuz" className="text-sm text-muted hover:text-foreground">
+              Tümünü gör →
+            </Link>
+          </div>
+          {team.length > 0 ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {team.slice(0, 4).map((m) => (
+                <Card key={m.id} className="p-5 text-center">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-surface-2 text-lg font-bold text-accent-hover">
+                    {m.fullName
+                      .split(" ")
+                      .map((p) => p[0])
+                      .slice(0, 2)
+                      .join("")}
+                  </div>
+                  <h3 className="mt-3 font-semibold">{m.fullName}</h3>
+                  <p className="text-sm text-muted">{m.title}</p>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <EmptyHint text="Henüz kadro üyesi eklenmedi." />
+          )}
+        </div>
       </section>
 
       <section className="border-t border-border">
         <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
-          <h2 className="text-2xl font-bold">Sorularını TeknoAI Asistan&apos;a sor</h2>
+          <h2 className="text-2xl font-bold">Hibe ve fon fırsatlarını kaçırma</h2>
           <p className="mx-auto mt-3 max-w-xl text-muted">
-            Haberler, projeler, makaleler, ilanlar ve destek konularında 7/24 yanında.
+            Topluluğa katıl, güncel hibe ve fon ilanlarına, ilanlara ve üyelere anında eriş.
           </p>
-          <LinkButton href="/asistan" size="lg" className="mt-8">
-            <Sparkles size={18} /> Asistanla Sohbet Et
+          <LinkButton href="/kayit" size="lg" className="mt-8">
+            <ArrowRight size={18} /> Topluluğa Katıl
           </LinkButton>
         </div>
       </section>

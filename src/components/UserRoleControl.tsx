@@ -51,6 +51,17 @@ export function UserRoleControl({
     }
   }
 
+  async function deleteUser() {
+    if (!confirm("Bu kullanıcıyı silmek istediğine emin misin? Hesap kalıcı olarak devre dışı kalır.")) return;
+    setLoading(true);
+    try {
+      await fetch(`/api/proxy/admin/users/${userId}`, { method: "DELETE" });
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="flex flex-wrap items-center gap-2">
       {allRoles.map((r) => (
@@ -70,6 +81,9 @@ export function UserRoleControl({
       </Button>
       <Button size="sm" variant={lockedOut ? "secondary" : "danger"} disabled={loading} onClick={toggleLockout}>
         {lockedOut ? "Kilidi Aç" : "Kilitle"}
+      </Button>
+      <Button size="sm" variant="danger" disabled={loading} onClick={deleteUser}>
+        Sil
       </Button>
     </div>
   );

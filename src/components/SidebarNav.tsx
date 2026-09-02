@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  PenLine,
+  HandCoins,
   Megaphone,
   LifeBuoy,
   UserCog,
@@ -14,12 +14,12 @@ import {
   FolderGit2,
   UserCircle2,
   Mail,
-  QrCode,
+  ScrollText,
 } from "lucide-react";
 
 const panelLinks = [
   { href: "/panel", label: "Panelim", icon: LayoutDashboard },
-  { href: "/panel/makalelerim", label: "Makalelerim", icon: PenLine },
+  { href: "/panel/hibelerim", label: "Hibelerim / Fonlarım", icon: HandCoins },
   { href: "/panel/ilanlarim", label: "İlanlarım", icon: Megaphone },
   { href: "/panel/destek", label: "Destek", icon: LifeBuoy },
   { href: "/panel/profil", label: "Profilim", icon: UserCog },
@@ -29,13 +29,13 @@ const adminLinks = [
   { href: "/yonetim", label: "Genel Bakış", icon: LayoutDashboard },
   { href: "/yonetim/kullanicilar", label: "Kullanıcılar", icon: Users },
   { href: "/yonetim/haberler", label: "Haberler", icon: Newspaper },
-  { href: "/yonetim/makaleler", label: "Makale Onayı", icon: PenLine },
+  { href: "/yonetim/hibeler", label: "Hibe/Fon Onayı", icon: HandCoins },
   { href: "/yonetim/ilanlar", label: "İlan Onayı", icon: Megaphone },
   { href: "/yonetim/projeler", label: "Projeler", icon: FolderGit2 },
   { href: "/yonetim/kadro", label: "Kadro", icon: UserCircle2 },
   { href: "/yonetim/destek", label: "Destek Talepleri", icon: LifeBuoy },
   { href: "/yonetim/iletisim", label: "İletişim Kutusu", icon: Mail },
-  { href: "/yonetim/whatsapp", label: "WhatsApp Bot", icon: QrCode },
+  { href: "/yonetim/denetim", label: "Denetim Kayıtları", icon: ScrollText },
 ];
 
 const contentOnlyHrefs = new Set(["/yonetim/haberler", "/yonetim/projeler"]);

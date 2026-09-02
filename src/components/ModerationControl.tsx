@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-export function ModerationControl({ type, id }: { type: "articles" | "listings"; id: string }) {
+export function ModerationControl({ type, id }: { type: "listings" | "grants"; id: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState<"approve" | "reject" | null>(null);
 

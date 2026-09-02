@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Label, Input, Textarea } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import type { TeamMember } from "@/lib/types";
 
 export function TeamMemberForm({ initial, onSaved }: { initial?: TeamMember; onSaved?: () => void }) {
@@ -70,11 +71,8 @@ export function TeamMemberForm({ initial, onSaved }: { initial?: TeamMember; onS
         <Label htmlFor="bio">Hakkında</Label>
         <Textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} className="min-h-20" />
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <Label htmlFor="avatarUrl">Fotoğraf URL</Label>
-          <Input id="avatarUrl" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
-        </div>
+      <ImageUploader label="Fotoğraf" category="team" aspect={1} value={avatarUrl} onChange={setAvatarUrl} />
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="linkedInUrl">LinkedIn</Label>
           <Input id="linkedInUrl" value={linkedInUrl} onChange={(e) => setLinkedInUrl(e.target.value)} />

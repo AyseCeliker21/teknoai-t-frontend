@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { LogoutButton } from "@/components/LogoutButton";
 import { LinkButton } from "@/components/ui/Button";
 import { TeknoLogoMark } from "@/components/TeknoLogoMark";
@@ -17,7 +17,7 @@ const memberLinks = [
   { href: "/kadromuz", label: "Kadromuz" },
   { href: "/haberler", label: "Haberler" },
   { href: "/projeler", label: "Projeler" },
-  { href: "/makaleler", label: "Makaleler" },
+  { href: "/hibeler", label: "Hibeler / Fonlar" },
   { href: "/ilanlar", label: "İlanlar" },
   { href: "/uyeler", label: "Üyeler" },
   { href: "/iletisim", label: "İletişim" },
@@ -49,9 +49,6 @@ export function Navbar({ user }: { user: SessionUser | null }) {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <LinkButton href="/asistan" variant="ghost" size="sm">
-            <Sparkles size={16} className="text-accent-hover" /> Asistan
-          </LinkButton>
           {user ? (
             <>
               {isAdminArea && (
@@ -98,13 +95,6 @@ export function Navbar({ user }: { user: SessionUser | null }) {
                 {l.label}
               </Link>
             ))}
-            <Link
-              href="/asistan"
-              className="rounded-lg px-3 py-2 text-sm text-accent-hover hover:bg-surface-2"
-              onClick={() => setOpen(false)}
-            >
-              TeknoAI Asistan
-            </Link>
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
               {user ? (
                 <>

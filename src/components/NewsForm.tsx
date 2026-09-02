@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Label, Input, Textarea } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import type { NewsDetail } from "@/lib/types";
 
 export function NewsForm({ initial, id }: { initial?: NewsDetail; id?: string }) {
@@ -64,10 +65,13 @@ export function NewsForm({ initial, id }: { initial?: NewsDetail; id?: string })
           className="min-h-48"
         />
       </div>
-      <div>
-        <Label htmlFor="coverImageUrl">Kapak Görseli URL</Label>
-        <Input id="coverImageUrl" value={coverImageUrl} onChange={(e) => setCoverImageUrl(e.target.value)} />
-      </div>
+      <ImageUploader
+        label="Kapak Görseli"
+        category="news"
+        aspect={1.91}
+        value={coverImageUrl}
+        onChange={setCoverImageUrl}
+      />
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" checked={isPublished} onChange={(e) => setIsPublished(e.target.checked)} />
         Yayınla

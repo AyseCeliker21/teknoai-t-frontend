@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Label, Input, Textarea, Select } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import type { ProjectDetail } from "@/lib/types";
 
 const statuses = [
@@ -105,10 +106,13 @@ export function ProjectForm({ initial, id }: { initial?: ProjectDetail; id?: str
           <Input id="demoUrl" value={demoUrl} onChange={(e) => setDemoUrl(e.target.value)} />
         </div>
       </div>
-      <div>
-        <Label htmlFor="coverImageUrl">Kapak Görseli URL</Label>
-        <Input id="coverImageUrl" value={coverImageUrl} onChange={(e) => setCoverImageUrl(e.target.value)} />
-      </div>
+      <ImageUploader
+        label="Kapak Görseli"
+        category="projects"
+        aspect={1.91}
+        value={coverImageUrl}
+        onChange={setCoverImageUrl}
+      />
       <Button type="submit" disabled={loading}>
         {loading ? "Kaydediliyor…" : id ? "Güncelle" : "Oluştur"}
       </Button>

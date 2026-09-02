@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Label, Input, Textarea } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import type { AuthResponse } from "@/lib/types";
 
 export function ProfileForm({ profile }: { profile: AuthResponse["user"] }) {
@@ -45,10 +46,13 @@ export function ProfileForm({ profile }: { profile: AuthResponse["user"] }) {
         <Label htmlFor="title">Unvan</Label>
         <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Örn. Yazılım Geliştirici" />
       </div>
-      <div>
-        <Label htmlFor="avatarUrl">Profil Fotoğrafı URL</Label>
-        <Input id="avatarUrl" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} />
-      </div>
+      <ImageUploader
+        label="Profil Fotoğrafı"
+        category="avatars"
+        aspect={1}
+        value={avatarUrl}
+        onChange={setAvatarUrl}
+      />
       <div>
         <Label htmlFor="bio">Hakkında</Label>
         <Textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />

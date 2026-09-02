@@ -34,16 +34,20 @@ export function LinkButton({
   variant = "primary",
   size = "md",
   className,
+  target,
+  rel,
   children,
 }: {
   href: string;
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   className?: string;
+  target?: string;
+  rel?: string;
   children: React.ReactNode;
 }) {
   return (
-    <Link href={href} className={cn(base, variants[variant], sizes[size], className)}>
+    <Link href={href} target={target} rel={rel} className={cn(base, variants[variant], sizes[size], className)}>
       {children}
     </Link>
   );

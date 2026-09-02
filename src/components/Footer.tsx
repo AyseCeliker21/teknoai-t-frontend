@@ -23,7 +23,7 @@ export function Footer() {
               <li><Link href="/kadromuz" className="hover:text-foreground">Kadromuz</Link></li>
               <li><Link href="/haberler" className="hover:text-foreground">Haberler</Link></li>
               <li><Link href="/projeler" className="hover:text-foreground">Projeler</Link></li>
-              <li><Link href="/makaleler" className="hover:text-foreground">Makaleler</Link></li>
+              <li><Link href="/hibeler" className="hover:text-foreground">Hibeler / Fonlar</Link></li>
             </ul>
           </div>
           <div>
@@ -31,7 +31,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted">
               <li><Link href="/ilanlar" className="hover:text-foreground">İlanlar</Link></li>
               <li><Link href="/kayit" className="hover:text-foreground">Üye Ol</Link></li>
-              <li><Link href="/asistan" className="hover:text-foreground">TeknoAI Asistan</Link></li>
+              <li><Link href="/uyeler" className="hover:text-foreground">Üyeler</Link></li>
             </ul>
           </div>
           <div>

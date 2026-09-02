@@ -2,7 +2,7 @@ import { apiFetch } from "@/lib/api";
 import { getAccessToken } from "@/lib/session";
 import type { AdminDashboardStats } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
-import { Users, PenLine, Megaphone, LifeBuoy, Mail, Newspaper, FolderGit2 } from "lucide-react";
+import { Users, HandCoins, Megaphone, LifeBuoy, Mail, Newspaper, FolderGit2 } from "lucide-react";
 
 export const metadata = { title: "Yönetim Paneli | TeknoAI-T" };
 
@@ -12,7 +12,7 @@ export default async function AdminDashboardPage() {
     () =>
       ({
         totalUsers: 0,
-        pendingArticles: 0,
+        pendingGrants: 0,
         pendingListings: 0,
         openSupportTickets: 0,
         unreadContactMessages: 0,
@@ -23,7 +23,7 @@ export default async function AdminDashboardPage() {
 
   const tiles = [
     { label: "Toplam Üye", value: stats.totalUsers, icon: Users },
-    { label: "Onay Bekleyen Makale", value: stats.pendingArticles, icon: PenLine },
+    { label: "Onay Bekleyen Hibe/Fon", value: stats.pendingGrants, icon: HandCoins },
     { label: "Onay Bekleyen İlan", value: stats.pendingListings, icon: Megaphone },
     { label: "Açık Destek Talebi", value: stats.openSupportTickets, icon: LifeBuoy },
     { label: "Okunmamış İletişim Mesajı", value: stats.unreadContactMessages, icon: Mail },

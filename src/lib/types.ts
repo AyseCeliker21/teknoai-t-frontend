@@ -21,8 +21,6 @@ export interface AuthResponse {
     title?: string | null;
     bio?: string | null;
     avatarUrl?: string | null;
-    phoneNumber?: string | null;
-    phoneNumberConfirmed: boolean;
   };
 }
 
@@ -52,22 +50,25 @@ export interface NewsDetail extends NewsListItem {
   authorName: string;
 }
 
-export interface ArticleListItem {
+export interface GrantListItem {
   id: string;
   title: string;
   slug: string;
   summary: string;
-  coverImageUrl?: string | null;
-  tags?: string | null;
-  authorName: string;
+  organization: string;
+  amount?: string | null;
+  deadlineAtUtc?: string | null;
+  category: string;
   status: string;
-  publishedAtUtc?: string | null;
-  authorId: string;
+  authorName: string;
+  createdAtUtc: string;
 }
 
-export interface ArticleDetail extends ArticleListItem {
-  contentMarkdown: string;
+export interface GrantDetail extends GrantListItem {
+  bodyMarkdown: string;
+  applicationUrl?: string | null;
   moderationNote?: string | null;
+  authorId: string;
 }
 
 export interface ProjectMember {
@@ -143,7 +144,7 @@ export interface ContactMessage {
 
 export interface AdminDashboardStats {
   totalUsers: number;
-  pendingArticles: number;
+  pendingGrants: number;
   pendingListings: number;
   openSupportTickets: number;
   unreadContactMessages: number;
@@ -160,25 +161,6 @@ export interface AdminUserListItem {
   lockedOut: boolean;
 }
 
-export interface AssistantConversationSummary {
-  id: string;
-  title: string;
-  createdAtUtc: string;
-}
-
-export interface AssistantMessageDto {
-  id: string;
-  role: string;
-  content: string;
-  createdAtUtc: string;
-}
-
-export interface WhatsAppBotStatus {
-  configured: boolean;
-  connected: boolean;
-  status: string;
-}
-
 export interface Badge {
   key: string;
   name: string;
@@ -192,6 +174,17 @@ export interface UserSummary {
   fullName: string;
   title?: string | null;
   avatarUrl?: string | null;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  actorUserId: string;
+  actorName: string;
+  action: string;
+  entityType: string;
+  entityId?: string | null;
+  details?: string | null;
+  createdAtUtc: string;
 }
 
 export interface PublicProfile {

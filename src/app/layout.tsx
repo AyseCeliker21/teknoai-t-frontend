@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { AssistantWidget } from "@/components/AssistantWidget";
 import { getSessionUser } from "@/lib/session";
 
 const geistSans = Geist({
@@ -33,7 +32,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <Navbar user={user} />
         <main className="flex-1">{children}</main>
         <Footer />
-        <AssistantWidget isAuthenticated={!!user} />
       </body>
     </html>
   );

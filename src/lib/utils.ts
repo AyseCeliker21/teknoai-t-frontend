@@ -37,3 +37,14 @@ export function categoryLabel(category: string): string {
   };
   return map[category] ?? category;
 }
+
+export function grantCategoryLabel(category: string): string {
+  const map: Record<string, string> = {
+    Girisimcilik: "Girişimcilik",
+    Akademik: "Akademik",
+    Teknoloji: "Teknoloji",
+    Egitim: "Eğitim",
+    Diger: "Diğer",
+  };
+  return map[category] ?? category;
+}
