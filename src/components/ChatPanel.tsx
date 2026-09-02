@@ -26,7 +26,7 @@ export function ChatPanel({
 
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const selectedUserIdRef = useRef<string | null>(selectedUserId);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     selectedUserIdRef.current = selectedUserId;
@@ -131,7 +131,10 @@ export function ChatPanel({
   }, [currentUserId]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages]);
 
   async function handleSend() {
@@ -197,7 +200,7 @@ export function ChatPanel({
               <h2 className="font-semibold">{selectedConversation.fullName}</h2>
             </div>
 
-            <div className="flex-1 space-y-3 overflow-y-auto p-4">
+            <div ref={messagesContainerRef} className="flex-1 space-y-3 overflow-y-auto p-4">
               {loadingMessages ? (
                 <p className="text-sm text-muted">Yükleniyor…</p>
               ) : messages.length === 0 ? (
@@ -222,7 +225,6 @@ export function ChatPanel({
                   );
                 })
               )}
-              <div ref={messagesEndRef} />
             </div>
 
             {error && <p className="px-4 pb-1 text-sm text-accent-hover">{error}</p>}
