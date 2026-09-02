@@ -9,7 +9,14 @@ async function forward(request: NextRequest, path: string[]) {
 
   const hasBody = !["GET", "HEAD"].includes(request.method);
   const body = hasBody ? await request.arrayBuffer() : undefined;
-  const contentType = request.headers.get("Content-Type") ?? "application/json";
+  // Most callers send JSON via fetch(..., { body: JSON.stringify(x) }) without setting a
+  // Content-Type header, so the browser defaults it to "text/plain" — force application/json
+  // for those. Only multipart file uploads (FormData) need their real Content-Type preserved,
+  // since it carries the boundary parameter the backend needs to parse the body.
+  const incomingContentType = request.headers.get("Content-Type");
+  const contentType = incomingContentType?.startsWith("multipart/form-data")
+    ? incomingContentType
+    : "application/json";
 
   let token = await getAccessToken();
 

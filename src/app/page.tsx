@@ -4,6 +4,7 @@ import { apiFetch } from "@/lib/api";
 import type { NewsListItem, ProjectListItem, TeamMember, GrantListItem, PagedResult } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
+import { Avatar } from "@/components/Avatar";
 import { formatDate } from "@/lib/utils";
 
 export default async function HomePage() {
@@ -140,13 +141,7 @@ export default async function HomePage() {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {team.slice(0, 4).map((m) => (
                 <Card key={m.id} className="p-5 text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-surface-2 text-lg font-bold text-accent-hover">
-                    {m.fullName
-                      .split(" ")
-                      .map((p) => p[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </div>
+                  <Avatar name={m.fullName} avatarUrl={m.avatarUrl} size={64} className="mx-auto text-lg" />
                   <h3 className="mt-3 font-semibold">{m.fullName}</h3>
                   <p className="text-sm text-muted">{m.title}</p>
                 </Card>
