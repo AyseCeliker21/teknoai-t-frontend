@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Label, Input } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -44,42 +45,50 @@ export function RegisterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="fullName">Ad Soyad</Label>
-        <Input id="fullName" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
+    <div className="space-y-5">
+      <GoogleSignInButton next="/panel" />
+      <div className="flex items-center gap-3 text-xs text-muted">
+        <div className="h-px flex-1 bg-border" />
+        veya
+        <div className="h-px flex-1 bg-border" />
       </div>
-      <div>
-        <Label htmlFor="email">E-posta</Label>
-        <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-      </div>
-      <div>
-        <Label htmlFor="password">Şifre</Label>
-        <Input
-          id="password"
-          type="password"
-          required
-          minLength={8}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <p className="mt-1.5 text-xs text-muted">En az 8 karakter, bir büyük harf, bir küçük harf ve bir rakam içermelidir.</p>
-      </div>
-      <div>
-        <Label htmlFor="confirmPassword">Şifre Tekrar</Label>
-        <Input
-          id="confirmPassword"
-          type="password"
-          required
-          minLength={8}
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </div>
-      {error && <p className="text-sm text-accent-hover">{error}</p>}
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Kayıt oluyor…" : "Kayıt Ol"}
-      </Button>
-    </form>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="fullName">Ad Soyad</Label>
+          <Input id="fullName" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
+        </div>
+        <div>
+          <Label htmlFor="email">E-posta</Label>
+          <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div>
+          <Label htmlFor="password">Şifre</Label>
+          <Input
+            id="password"
+            type="password"
+            required
+            minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <p className="mt-1.5 text-xs text-muted">En az 8 karakter, bir büyük harf, bir küçük harf ve bir rakam içermelidir.</p>
+        </div>
+        <div>
+          <Label htmlFor="confirmPassword">Şifre Tekrar</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            required
+            minLength={8}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        {error && <p className="text-sm text-accent-hover">{error}</p>}
+        <Button type="submit" disabled={loading} className="w-full">
+          {loading ? "Kayıt oluyor…" : "Kayıt Ol"}
+        </Button>
+      </form>
+    </div>
   );
 }
