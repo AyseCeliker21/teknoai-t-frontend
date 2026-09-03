@@ -78,6 +78,45 @@ function applyResponseCookies(response: NextResponse, auth: RefreshedAuth) {
   });
 }
 
+// Known AI crawlers / scrapers — mirrors robots.txt's disallow list, but
+// actually enforced here with a 403 rather than relying on the bot to be
+// the kind that reads robots.txt and honors it.
+const BLOCKED_BOT_USER_AGENTS = [
+  "gptbot",
+  "chatgpt-user",
+  "oai-searchbot",
+  "claudebot",
+  "claude-web",
+  "anthropic-ai",
+  "ccbot",
+  "google-extended",
+  "googleother",
+  "perplexitybot",
+  "perplexity-user",
+  "bytespider",
+  "applebot-extended",
+  "amazonbot",
+  "meta-externalagent",
+  "meta-externalfetcher",
+  "facebookbot",
+  "diffbot",
+  "imagesiftbot",
+  "omgilibot",
+  "omgili",
+  "timpibot",
+  "youbot",
+  "cohere-ai",
+  "cohere-training-data-crawler",
+  "kangaroo bot",
+  "google-cloudvertexbot",
+];
+
+function isBlockedBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  const lower = userAgent.toLowerCase();
+  return BLOCKED_BOT_USER_AGENTS.some((bot) => lower.includes(bot));
+}
+
 // Guests (not logged in) may only browse Haberler, Kadromuz, and the home
 // page. Everything else requires an account.
 const MEMBER_ONLY_PATHS = ["/panel", "/projeler", "/hibeler", "/ilanlar", "/iletisim", "/uyeler", "/uye"];
@@ -88,6 +127,12 @@ const CONTENT_PRIVILEGED_PATHS = ["/yonetim/haberler", "/yonetim/projeler", "/yo
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Let bots still fetch robots.txt itself — a compliant crawler needs to
+  // read it before it can find out it's not welcome.
+  if (pathname !== "/robots.txt" && isBlockedBot(request.headers.get("user-agent"))) {
+    return new NextResponse("Forbidden", { status: 403 });
+  }
 
   let user = parseUserCookie(request.cookies.get(USER_COOKIE)?.value);
   let hasSession = request.cookies.has(ACCESS_COOKIE);
