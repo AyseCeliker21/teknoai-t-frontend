@@ -1,10 +1,24 @@
 import { notFound } from "next/navigation";
 import { apiFetch, ApiError } from "@/lib/api";
-import type { ProjectDetail } from "@/lib/types";
+import { getAccessToken, getSessionUser } from "@/lib/session";
+import type { ProjectDetail, Cv } from "@/lib/types";
 import { MarkdownContent } from "@/components/MarkdownContent";
 import { Badge, statusVariant } from "@/components/ui/Badge";
 import { statusLabel } from "@/lib/utils";
-import { Code2, ExternalLink } from "lucide-react";
+import { Code2, ExternalLink, Sparkles } from "lucide-react";
+
+function computeSkillMatch(techStack: string | null | undefined, skills: string[]): number | null {
+  if (!techStack || skills.length === 0) return null;
+  const required = techStack
+    .split(",")
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean);
+  if (required.length === 0) return null;
+
+  const mine = skills.map((s) => s.toLowerCase());
+  const matched = required.filter((req) => mine.some((s) => s.includes(req) || req.includes(s)));
+  return Math.round((matched.length / required.length) * 100);
+}
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -15,6 +29,18 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   } catch (err) {
     if (err instanceof ApiError && err.status === 404) notFound();
     throw err;
+  }
+
+  const me = await getSessionUser();
+  let matchPercent: number | null = null;
+  if (me) {
+    const token = await getAccessToken();
+    const myCv = await apiFetch<Cv | null>("/api/cv/me", { token })
+      .then((c) => c ?? null)
+      .catch(() => null);
+    if (myCv) {
+      matchPercent = computeSkillMatch(project.techStack, myCv.skills);
+    }
   }
 
   return (
@@ -72,6 +98,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {matchPercent !== null && (
+        <div className="mt-10 flex items-center gap-3 rounded-lg border border-accent/30 bg-accent/10 p-4">
+          <Sparkles size={20} className="shrink-0 text-accent-hover" />
+          <p className="text-sm">
+            Yeteneklerinle <strong>%{matchPercent}</strong> uyumlu bir proje. Özgeçmişindeki beceriler bu projenin
+            teknoloji yığınıyla karşılaştırılarak hesaplandı.
+          </p>
         </div>
       )}
     </article>

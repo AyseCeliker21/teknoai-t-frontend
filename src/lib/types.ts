@@ -218,6 +218,32 @@ export interface ChatConversation {
   unreadCount: number;
 }
 
+export interface CvExperienceItem {
+  title: string;
+  company: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  description?: string | null;
+}
+
+export interface CvEducationItem {
+  school: string;
+  degree?: string | null;
+  field?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+}
+
+export interface Cv {
+  userId: string;
+  summary?: string | null;
+  skills: string[];
+  experience: CvExperienceItem[];
+  education: CvEducationItem[];
+  isAutoFilled: boolean;
+  updatedAtUtc?: string | null;
+}
+
 export interface PublicProfile {
   id: string;
   fullName: string;

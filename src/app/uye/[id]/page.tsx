@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { apiFetch, ApiError } from "@/lib/api";
 import { getAccessToken, getSessionUser } from "@/lib/session";
-import type { PublicProfile, UserSummary } from "@/lib/types";
+import type { PublicProfile, UserSummary, Cv } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { Avatar } from "@/components/Avatar";
@@ -27,10 +27,13 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   }
 
   const isOwnProfile = me?.id === id;
-  const [followers, following, friends] = await Promise.all([
+  const [followers, following, friends, cv] = await Promise.all([
     fetchList(`/api/users/${id}/followers`, token),
     fetchList(`/api/users/${id}/following`, token),
     fetchList(`/api/users/${id}/friends`, token),
+    apiFetch<Cv | null>(`/api/cv/user/${id}`, { token })
+      .then((c) => c ?? null)
+      .catch(() => null),
   ]);
 
   return (
@@ -78,6 +81,22 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
         <h2 className="mb-4 font-semibold">Rozetler</h2>
         <BadgeList badges={profile.badges} />
       </Card>
+
+      {cv && (cv.summary || cv.skills.length > 0) && (
+        <Card className="mt-6 p-6">
+          <h2 className="mb-4 font-semibold">Özgeçmiş</h2>
+          {cv.summary && <p className="text-sm text-muted">{cv.summary}</p>}
+          {cv.skills.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {cv.skills.map((skill) => (
+                <span key={skill} className="rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent-hover">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
+        </Card>
+      )}
 
       <div className="mt-6 grid gap-6 sm:grid-cols-3">
         <UserList title="Arkadaşlar" users={friends} />

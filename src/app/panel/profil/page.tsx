@@ -1,11 +1,12 @@
 import { apiFetch } from "@/lib/api";
 import { getAccessToken } from "@/lib/session";
-import type { AuthResponse, PublicProfile } from "@/lib/types";
+import type { AuthResponse, PublicProfile, Cv } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { ProfileForm } from "@/components/ProfileForm";
 import { PasswordForm } from "@/components/PasswordForm";
 import { BadgeList } from "@/components/BadgeList";
+import { CvForm } from "@/components/CvForm";
 
 export const metadata = { title: "Profilim | TeknoAI-T" };
 
@@ -15,6 +16,7 @@ export default async function ProfilePage() {
   const publicProfile = await apiFetch<PublicProfile>(`/api/users/${profile.id}/profile`, { token }).catch(
     () => null
   );
+  const cv = (await apiFetch<Cv | null>("/api/cv/me", { token }).catch(() => null)) ?? null;
 
   return (
     <div className="space-y-8">
@@ -49,6 +51,11 @@ export default async function ProfilePage() {
       <Card className="p-6">
         <h2 className="mb-4 font-semibold">Profil Bilgileri</h2>
         <ProfileForm profile={profile} />
+      </Card>
+
+      <Card className="p-6">
+        <h2 className="mb-4 font-semibold">Özgeçmiş (CV)</h2>
+        <CvForm initial={cv} />
       </Card>
 
       <Card className="p-6">
