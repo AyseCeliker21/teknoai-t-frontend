@@ -84,7 +84,7 @@ const MEMBER_ONLY_PATHS = ["/panel", "/projeler", "/hibeler", "/ilanlar", "/ilet
 
 // Within /yonetim, only these paths are open to İçerik Üretici (in addition
 // to Sistem Yöneticisi, who can reach everything under /yonetim).
-const CONTENT_PRIVILEGED_PATHS = ["/yonetim/haberler", "/yonetim/projeler"];
+const CONTENT_PRIVILEGED_PATHS = ["/yonetim/haberler", "/yonetim/projeler", "/yonetim/ilanlar"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

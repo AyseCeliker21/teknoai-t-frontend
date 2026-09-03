@@ -93,6 +93,19 @@ export interface ProjectDetail extends ProjectListItem {
   repoUrl?: string | null;
   demoUrl?: string | null;
   members: ProjectMember[];
+  moderationStatus: string;
+  moderationNote?: string | null;
+  authorName?: string | null;
+  createdAtUtc: string;
+}
+
+export interface ProjectRequestListItem {
+  id: string;
+  title: string;
+  slug: string;
+  moderationStatus: string;
+  authorName: string;
+  createdAtUtc: string;
 }
 
 export interface ListingListItem {

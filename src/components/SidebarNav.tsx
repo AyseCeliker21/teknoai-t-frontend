@@ -38,7 +38,7 @@ const adminLinks = [
   { href: "/yonetim/denetim", label: "Denetim Kayıtları", icon: ScrollText },
 ];
 
-const contentOnlyHrefs = new Set(["/yonetim/haberler", "/yonetim/projeler"]);
+const contentOnlyHrefs = new Set(["/yonetim/haberler", "/yonetim/projeler", "/yonetim/ilanlar"]);
 
 export function SidebarNav({
   variant,

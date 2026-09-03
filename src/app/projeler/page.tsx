@@ -4,7 +4,9 @@ import type { ProjectListItem, PagedResult } from "@/lib/types";
 import { Card } from "@/components/ui/Card";
 import { Badge, statusVariant } from "@/components/ui/Badge";
 import { PageHeader } from "@/components/PageHeader";
+import { LinkButton } from "@/components/ui/Button";
 import { statusLabel } from "@/lib/utils";
+import { FolderGit2 } from "lucide-react";
 
 export const metadata = { title: "Projeler | TeknoAI-T" };
 
@@ -15,7 +17,15 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <PageHeader title="Projeler" description="Topluluk üyelerinin birlikte geliştirdiği projeler." />
+      <PageHeader
+        title="Projeler"
+        description="Topluluk üyelerinin birlikte geliştirdiği projeler."
+        action={
+          <LinkButton href="/panel/projelerim" variant="heroSecondary">
+            <FolderGit2 size={16} /> Proje Öner
+          </LinkButton>
+        }
+      />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       {result.items.length === 0 ? (
         <p className="text-muted">Henüz proje eklenmedi.</p>
