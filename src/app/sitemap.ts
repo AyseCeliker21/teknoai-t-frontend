@@ -4,6 +4,20 @@ import type { NewsListItem, GrantListItem, ProjectListItem, ListingListItem, Pag
 
 const BASE_URL = "https://teknoai-t.com";
 
+// The backend serializes *Utc fields without a timezone suffix and with up to
+// 7 fractional-second digits (e.g. "2026-09-01T17:40:12.6445857") — not a
+// valid W3C datetime, which Google's sitemap validator rejects outright.
+// Passing a real Date through next's sitemap serializer instead of the raw
+// string always yields a spec-compliant "...ss.sssZ" timestamp. The strings
+// are UTC by name/convention but lack the 'Z', so append one before parsing
+// (JS would otherwise read a timezone-less datetime string as local time).
+function toValidDate(value?: string | null): Date | undefined {
+  if (!value) return undefined;
+  const withZone = /[Zz]|[+-]\d{2}:\d{2}$/.test(value) ? value : `${value}Z`;
+  const date = new Date(withZone);
+  return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
 async function fetchAllPages<T>(path: string): Promise<T[]> {
   const first = await apiFetch<PagedResult<T>>(`${path}${path.includes("?") ? "&" : "?"}page=1&pageSize=100`).catch(
     () => null
@@ -41,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const newsRoutes: MetadataRoute.Sitemap = news.map((n) => ({
     url: `${BASE_URL}/haberler/${n.slug}`,
-    lastModified: n.publishedAtUtc ?? undefined,
+    lastModified: toValidDate(n.publishedAtUtc),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
@@ -50,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((g) => g.status === "Approved")
     .map((g) => ({
       url: `${BASE_URL}/hibeler/${g.slug}`,
-      lastModified: g.createdAtUtc,
+      lastModified: toValidDate(g.createdAtUtc),
       changeFrequency: "weekly",
       priority: 0.5,
     }));
@@ -65,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((l) => l.status === "Approved")
     .map((l) => ({
       url: `${BASE_URL}/ilanlar/${l.id}`,
-      lastModified: l.createdAtUtc,
+      lastModified: toValidDate(l.createdAtUtc),
       changeFrequency: "weekly",
       priority: 0.4,
     }));
